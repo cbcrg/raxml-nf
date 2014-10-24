@@ -13,19 +13,18 @@ Pull the Docker image with the following command:
     
 After that your can run RAxML with the following command: 
 
-    docker run cbcrg/raxml-nf raxmlHPC [raxml command line options]
-    
+    docker run cbcrg/raxml-nf [raxml command line options]
 
-Pthreads version can be executed with the following command line: 
+For example: 
 
-    docker run cbcrg/raxml-nf raxmlHPC-PTHREADS [raxml command line options]
+    docker run cbcrg/raxml-nf -f d -j -m PROTGAMMALG -s all_algs/Phy000CVIC_YEAST.clean.fasta -n my_tag -p 1.8984942 
     
     
 Bonus
 ------
 
-You can access the container  by running this command 
+You can access the container  by running this command: 
 
-	docker run -ti cbcrg/raxml-nf bash
+	docker run -ti --entrypoint /bin/bash cbcrg/raxml-nf
 	
 	

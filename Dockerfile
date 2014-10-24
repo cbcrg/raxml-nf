@@ -24,4 +24,10 @@ RUN cd standard-RAxML-master; \
   rm -rf standard-RAxML-master
    
 
+#
+# Add the wrapper 
+# 
+ADD bin/raxml /usr/local/bin/
+
+ENTRYPOINT ["/usr/local/bin/raxml"]
 
