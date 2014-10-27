@@ -1,0 +1,544 @@
+<html>
+
+	<head>
+		<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+		<title>Ktreedist Documentation</title>
+
+		<style media="screen, print" type="text/css"><!--
+			.small {font-size: 9pt}
+		--></style>
+
+	</head>
+
+	<body>
+		<div align="center">
+			<h1>Ktreedist</h1>
+		</div>
+		<div align="center">
+			<h4>Calculation of the minimum branch length distance (K tree score) between phylogenetic trees</h4>
+		</div>
+		<div align="center">
+			Version 1.0 || June 2007
+			<br>
+			Copyright &copy; V&iacute;ctor Soria-Carrasco &amp; Jose Castresana
+		</div>
+		<hr>
+		<address>
+			Institut de Biologia Evolutiva (IBE), CSIC-UPF<br>
+			Passeig Mar&iacute;tim de la Barceloneta 37-49, 08003 Barcelona, Spain<br><br>
+		</address>
+		<hr>
+		<p><b>Ktreedist</b> is a computer program written in Perl scripting language that calculates the minimum branch length distance (or K tree score) from one phylogenetic tree to another. The K tree score provides a measure of the difference in both topology and branch lengths between two trees after scaling one of them to have a global divergence as similar as possible to the other tree.</p>
+		<p>The program should run in any UNIX / UNIX-like platform (Linux, Mac OS X, etc.) or Windows with a Perl interpreter installed.</p>
+		<p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but without guarantee of support or maintenance.</p>
+		<hr>
+		<h2>Contents</h2>
+		<ul>
+			<li><a href="#Installation">Installation</a></li>
+			<li><a href="#Quick start">Quick start</a></li>
+			<li><a href="#Method">How the method works</a></li>
+			<li><a href="#Options">Available options</a></li>
+			<li><a href="#File formats">File formats</a></li>
+			<li><a href="#Citation">Citation</a></li>
+		</ul>
+		<hr>
+		<h3><a name="Installation"></a>Installation</h3>
+		<p>The only requirement is to have a Perl 5.8.x interpreter installed in your operating system.</p>
+		<p>This program is distributed as a compressed tar file (.tar.gz), so you will need to unpack it and uncompress it. On UNIX / UNIX-like environments execute:<br>
+		</p>
+		<blockquote style="font-family: courier;">
+			tar xvfz Ktreedist_v1.tar.gz</blockquote>
+		On Windows you can use a tool like 7-zip to do it.
+		<p>You will get the program Ktreedist.pl, a folder with documentation and a folder with several example files.</p>
+		<h3><a name="Quick start"></a>Quick start</h3>
+		You can calculate the K tree score from one tree to another with the command:<br>
+		<blockquote>
+			<p><b>Ktreedist.pl -rt [reference tree FILE] -ct [comparison tree/s FILE]</b></p>
+		</blockquote>
+		For example, you can execute from the '/examples/small/nexus/' directory:<br>
+		<blockquote>
+			<p><b>Ktreedist.pl -rt A_reference.tree -ct B_comparison.tree</b></p>
+		</blockquote>
+		<p>In UNIX systems, if you have not made the file <b>Ktreedist.pl</b> executable, you must write &quot;<b>perl</b>&quot; before the program name. In any case, you should get something like this:<br>
+		</p>
+		<dl>
+			<dd>
+				<p style="font-family: courier;">Ktreedist version 1.0 - June 2007<br>
+					Calculation of the minimum branch length distance (K tree score) between trees<br>
+					<br>
+					Checkings:<br>
+					Line break... OK (UNIX &amp; UNIX)<br>
+					File format... OK (nexus with taxa block &amp; nexus with taxa block)<br>
+					Number of reference trees... OK<br>
+					Checking branch lengths... OK<br>
+					Tips in trees... OK<br>
+					All trees rooted or all unrooted... OK<br>
+					<br>
+					K tree score calculation:<br>
+					'A_reference.tree' vs 'B_comparison.tree' (4 trees)<br>
+					Reference tree (set A) is rooted and has 7 tips and 12 partitions.<br>
+					Number of partitions on comparison tree/s are listed below.<br>
+					---------------------------------------------<br>
+					&nbsp;&nbsp;Comparison_tree&nbsp;&nbsp;&nbsp;&nbsp;K-score&nbsp;&nbsp;&nbsp;Scale_factor&nbsp;&nbsp;<br>
+					---------------------------------------------<br>
+					&nbsp;&nbsp;set&nbsp;B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.12076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.02781&nbsp;&nbsp;&nbsp;<br>
+					&nbsp;&nbsp;set&nbsp;E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.23592&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.46370&nbsp;&nbsp;&nbsp;<br>
+					&nbsp;&nbsp;set&nbsp;H&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.09170&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.87013&nbsp;&nbsp;&nbsp;<br>
+					&nbsp;&nbsp;set&nbsp;X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.26704&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.31108&nbsp;&nbsp;&nbsp;<br>
+					---------------------------------------------<br>
+					<br>
+				</p>
+			</dd>
+		</dl>
+		<p>In this example, the comparison tree/s file contained four trees, and the K score is calculated from the reference tree to each comparison tree. The first column of the output contains the names of the comparison trees (in case of using the nexus format) or the order number of these trees (in case of using the newick format). The second column contains the minimum branch length distance or K tree score. The third column contains the factor 'K' by which the corresponding tree was scaled.</p>
+		<h3><a name="Method"></a>How the method works</h3>
+		<p>In order to calculate the K tree score, the program works in two steps. First, using a novel approach, the program calculates the scale factor that approximates as much as possible the global divergence of a comparison tree to that of a reference tree; then it scales the comparison tree by this factor K. Second, the program calculates the branch length distance (BLD) between the scaled comparison tree and the reference tree; thus the K tree score is the minimum branch length distance you can get from one tree to another after scaling one of them. The BLD was introduced by Kuhner and Felsenstein in 1994 (Mol Biol Evol 11:459-468; see also the book of Felsenstein, 2004), and it is implemented in the Phylip package, specifically in the treedist program (to which we added the 'K' to name our program). However, the BLD depends on the absolute size of the trees being compared and thus it cannot be directly used with trees of different substitution rates (Kuhner and Felsenstein, 1994). The K tree score tries to overcome this problem by introducing the K scale factor. On the other hand, it should be taken into account that the K tree score is not symmetric, that is, the result from A to B may not be the same than from B to A, and, in consequence, the K score is not properly a distance. Be aware that the results depend on the order of the input files.</p>
+		<h3><a name="Options"></a>Available options</h3>
+		<p>If you type <b>Ktreedist.pl -h</b> or simply <b>Ktreedist.pl</b> in the command line, help will be displayed:</p>
+		<dl>
+			<dd>
+				<p style="font-family: courier;">Usage:<br>
+					&nbsp;Ktreedist.pl&nbsp;-rt&nbsp;&lt;reference&nbsp;tree&nbsp;file&gt;&nbsp;-ct&nbsp;&lt;comparison&nbsp;tree/s&nbsp;file&gt;&nbsp;[&lt;options&gt;]<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;Options:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -t&nbsp;[&lt;filename&gt;]&nbsp;&nbsp;Output&nbsp;file&nbsp;for&nbsp;table&nbsp;of&nbsp;results<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -p&nbsp;[&lt;filename&gt;]&nbsp;&nbsp;Output&nbsp;file&nbsp;for&nbsp;table&nbsp;of&nbsp;partitions<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;-s&nbsp;[&lt;filename&gt;]&nbsp;&nbsp;Output&nbsp;file&nbsp;for&nbsp;comparison&nbsp;tree/s&nbsp;after&nbsp;scaling<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;-r&nbsp;&nbsp;Output&nbsp;symmetric&nbsp;difference&nbsp;(Robinson-Foulds)<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -n&nbsp;&nbsp;Output&nbsp;number&nbsp;of&nbsp;partitions in the comparison tree/s<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;-a&nbsp;&nbsp;Equivalent&nbsp;to&nbsp;all&nbsp;options<br>
+				</p>
+			</dd>
+		</dl>
+		<p>Options can be entered in any order, before, between or after specifying the reference or comparison files.</p>
+		<p><b>-rt &lt;reference tree file&gt;</b></p>
+		<p>'-<b>rt</b>' stands for <i>reference tree.</i> This is the file that contains the tree to which you want to compare the comparison tree/s. This file can be in newick or nexus format.</p>
+		<p><b>-ct &lt;comparison tree/s file&gt;</b></p>
+		<p>'-<b>ct</b>' stands for <i>comparison tree/s.</i> This is the file that contains the tree or the set of trees you want to compare to the reference tree. They will be scaled to match as much as possible the reference tree. This file can be in newick or nexus format.</p>
+		<p><b>Options:</b></p>
+		<p><b>-t [&lt;filename&gt;]&nbsp;&nbsp;Output file for table of results</b></p>
+		<p>A file containing a table of results is generated. If no filename is given the program will create a file with the name of the comparison tree/s and the extension <b>.tab</b>. This file can be easily imported to any spreadsheet. It has the following structure:</p>
+		<table style="font-family: courier" border="2" cellpadding="2" cellspacing="2">
+			<tr>
+				<td width="160">
+					<div align="left">
+						<span class=small>Trees</span></div>
+				</td>
+				<td><span class=small>K-score</span></td>
+				<td>
+					<div align="left">
+						<span class=small>Scale_factor</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>Symm_difference</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>N_partitions_ref_tree</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>N_partitions_comp_tree</span></div>
+				</td>
+			</tr>
+			<tr align="right">
+				<td width="160">
+					<div align="left">
+						<span class=small>set A (ref) - set B</span></div>
+				</td>
+				<td><span class=small>0.12076</span></td>
+				<td>
+					<div align="left">
+						<span class=small>1.02781</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>2</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>12</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>12</span></div>
+				</td>
+			</tr>
+			<tr align="right">
+				<td width="160">
+					<div align="left">
+						<span class=small>set A (ref) - set E</span></div>
+				</td>
+				<td><span class=small>0.23592</span></td>
+				<td>
+					<div align="left">
+						<span class=small>0.46370</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>2</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>12</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>12</span></div>
+				</td>
+			</tr>
+			<tr align="right">
+				<td width="160">
+					<div align="left">
+						<span class=small>set A (ref) - set H</span></div>
+				</td>
+				<td><span class=small>0.09170</span></td>
+				<td>
+					<div align="left">
+						<span class=small>0.87013</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>12</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>12</span></div>
+				</td>
+			</tr>
+			<tr align="right">
+				<td width="160">
+					<div align="left">
+						<span class=small>set A (ref) - set X</span></div>
+				</td>
+				<td><span class=small>0.26704</span></td>
+				<td>
+					<div align="left">
+						<span class=small>0.31108</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>5</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>12</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>11</span></div>
+				</td>
+			</tr>
+		</table>
+		<p>The 'Symm_difference' column is generated only with the option <b>-r</b>. The 'N_partitions' columns are generated only with the option <b>-n </b> (see below).</p>
+		<p><b>-p [&lt;filename&gt;]&nbsp;&nbsp;Output file for table of partitions</b></p>
+		<p>A file containing a table of partitions for each comparison tree is generated. If no filename is given the program will create a file with the name of the comparison tree/s and the extension <b>.part</b>. The file has the following structure (for one of the comparison trees):</p>
+		<table style="font-family: courier;" border="2" cellpadding="2" cellspacing="2">
+			<tr align="center">
+				<td><span class=small>set X</span></td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>Brl_ref_tree</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>Brl_comp_tree</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>Brl_comp_tree_K</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>Partition</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.02122</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp1, sp2, sp3, sp4, sp5, sp6) / (sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.03865</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp1, sp2, sp3, sp4) / (sp5, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.03156</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.03865</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.01202</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp2, sp3, sp4) / (sp1, sp5, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.03840</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp2, sp3) / (sp1, sp4, sp5, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.14233</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.14233</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.04427</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp5, sp6) / (sp1, sp2, sp3, sp4, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.10262</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.10262</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.03192</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp1) / (sp2, sp3, sp4, sp5, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.02572</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.02572</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.00800</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp2) / (sp1, sp3, sp4, sp5, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.03914</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.03914</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.01218</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp3) / (sp1, sp2, sp4, sp5, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.10829</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.10829</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.03369</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp4) / (sp1, sp2, sp3, sp5, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.04519</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.04519</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.01406</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp5) / (sp1, sp2, sp3, sp4, sp6, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.05906</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.05906</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.01837</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp6) / (sp1, sp2, sp3, sp4, sp5, sp7, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>0.22260</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.24382</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.07585</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp7) / (sp1, sp2, sp3, sp4, sp5, sp6, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.35872</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.11159</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp2, sp3, sp4, sp5, sp6) / (sp7, sp1, root)</span></div>
+				</td>
+			</tr>
+			<tr align="center">
+				<td>
+					<div align="left">
+						<span class=small>NONE</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.31628</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>0.09839</span></div>
+				</td>
+				<td>
+					<div align="left">
+						<span class=small>(sp7, sp1) / (sp2, sp3, sp4, sp5, sp6, root)</span></div>
+				</td>
+			</tr>
+		</table>
+		<p>Meaning of each column:<br>
+			Brl_ref_tree: Branch length of this partition on the reference tree.<br>
+			Brl_comp_tree: Branch length of this partition on the original comparison tree.<br>
+			Brl_comp_tree_K: Branch length of this partition on the comparison tree after scaling.<br>
+			Partition: Tip nodes that constitute this partition.<br>
+			<br>
+			For rooted trees, clades that encompass the root include this node together with the tip nodes.</p>
+		<p><b>-s&nbsp;[&lt;filename&gt;]&nbsp;&nbsp;Output&nbsp;file&nbsp;for&nbsp;comparison&nbsp;tree/s&nbsp;after&nbsp;scaling</b></p>
+		<p>A file containing the scaled comparison tree/s is generated. If no filename is given the program will create a file with the name of the comparison tree/s and the extension <b>.scaled</b>. The format of this file (newick or nexus) will be the same than that of the comparison file.</p>
+		<p><b>-r Output symmetric difference (Robinson-Foulds)</b></p>
+		<p>The symmetric difference is displayed in a column called 'Symm_difference' and, if the option <b>-t</b> is invoked, also in the table of results. The symmetric difference is defined as the number of partitions that are not shared between two trees, that is, the number of partitions of the first tree that are not present in the second tree plus the number of partitions of the second tree that are not present in the first tree. This distance may not be an even number if there are polytomies. Partitions with zero branch length (soft polytomies) count for the symmetric difference calculation by default, but there is a hidden option (see program code) to collapse such partitions for the symmetric difference calculation. The number of partitions (option <b>-n</b>) are counted accordingly. The K tree score is the same with or without collapsing soft polytomies.</p>
+		<p><b>-n Output number of partitions in the comparison tree/s</b></p>
+		<p>The number of partitions in the comparison tree/s are displayed in a column called 'N_partitions' and, if the option <b>-t</b> is invoked, also in the table of results (in this case, together with the number of partitions in the reference tree). The knowledge of the number of partitions may be useful to detect trees with polytomies.</p>
+		<p><b>-a Equivalent to all options</b></p>
+		<p>All previous options are enabled.</p>
+		<h3><a name="File formats"></a>File formats</h3>
+		<p>Input files can be in newick or nexus format. The nexus format can have a taxa block or not.</p>
+		<p>Trees may have bootstrap values. They will be read and ignored for the calculations, but written back to the scaled trees file.</p>
+		<p>The type of line break is also considered. The output files will be returned with the same type of line break present in the comparison file. Be careful with this, specially if you are working with input files with a line break different of that of your OS (ie. UNIX line break in a Windows system): you may have problems when postprocessing output files from this program.</p>
+		<p>The program is supposed to run with one reference tree and one or several comparison trees. If the reference file contains more than one tree, only the first one will be used.</p>
+		<p>Trees must be all rooted or all unrooted.</p>
+		<h3><a name="Citation"></a>Citation</h3>
+		<ul><li>
+		Soria-Carrasco, V., Talavera, G., Igea, J., and Castresana, J. (<b>2007</b>). The K tree score: quantification of differences in the relative branch length and topology of phylogenetic trees. <b>Bioinformatics</b> 23, 2954-2956.<br>
+		<a href="http://www.ncbi.nlm.nih.gov/sites/entrez?cmd=Retrieve&db=PubMed&list_uids=17890735&dopt=AbstractPlus" class="menu3">[abstract]</a><br>
+		</li></ul>
+		<br>
+	</body>
+
+</html>
