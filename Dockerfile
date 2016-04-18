@@ -1,10 +1,11 @@
-FROM debian:wheezy
+FROM pditommaso/dkrbase
 MAINTAINER Maria Chatzou <mxatzou@gmail.com>
 
 
-RUN apt-get update --fix-missing; \
-  apt-get install -q -y bc wget curl vim nano unzip make gcc g++; \
-  apt-get clean 
+RUN apt-get update -y --fix-missing && apt-get install -y \
+    git \
+    cmake \
+    libargtable2-dev
 
 RUN wget -q https://github.com/stamatak/standard-RAxML/archive/v8.0.0.zip \
   unzip v8.0.0.zip \
