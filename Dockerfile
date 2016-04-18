@@ -7,9 +7,11 @@ RUN apt-get update -y --fix-missing && apt-get install -y \
     cmake \
     libargtable2-dev
 
-RUN wget -q https://github.com/stamatak/standard-RAxML/archive/v8.0.0.zip \
-  unzip v8.0.0.zip \
-  rm -rf v8.0.0.zip; 
+RUN wget https://github.com/stamatak/standard-RAxML/archive/v8.0.0.zip 
+
+RUN  unzip v8.0.0.zip 
+
+RUN  rm -rf v8.0.0.zip; 
   
   
 #
