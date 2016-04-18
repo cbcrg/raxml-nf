@@ -6,9 +6,9 @@ RUN apt-get update --fix-missing; \
   apt-get install -q -y bc wget curl vim nano unzip make gcc g++; \
   apt-get clean 
 
-RUN wget -q https://github.com/stamatak/standard-RAxML/archive/v8.0.1.zip \
-  unzip v8.0.1.zip \
-  rm -rf v8.0.1.zip; 
+RUN wget -q https://github.com/stamatak/standard-RAxML/archive/v8.0.0.zip \
+  unzip v8.0.0.zip \
+  rm -rf v8.0.0.zip; 
   
   
 #
