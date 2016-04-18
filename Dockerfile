@@ -1,27 +1,24 @@
 FROM debian:wheezy
-MAINTAINER Paolo Di Tommaso <paolo.ditommaso@gmail.com>
+MAINTAINER Maria Chatzou <mxatzou@gmail.com>
 
 
 RUN apt-get update --fix-missing; \
   apt-get install -q -y bc wget curl vim nano unzip make gcc g++; \
   apt-get clean 
 
-RUN wget -q https://github.com/stamatak/standard-RAxML/archive/master.zip -O RAxML.zip; \
-  unzip RAxML.zip; \
-  rm -rf RAxML.zip; 
+RUN wget -q https://github.com/stamatak/standard-RAxML/archive/v8.0.1.zip \
+  unzip v8.0.1.zip \
+  rm -rf v8.0.1.zip; 
   
   
 #
 # Compile RAxML 
 # See https://github.com/stamatak/standard-RAxML
 #  
-RUN cd standard-RAxML-master; \
+RUN cd standard-RAxML-8.0.0; \
   make -f Makefile.gcc; rm *.o; \
-  make -f Makefile.PTHREADS.gcc; rm *.o; \
   mv raxmlHPC /usr/local/bin/; \
-  mv raxmlHPC-PTHREADS /usr/local/bin/;  \
-  cd ..; \
-  rm -rf standard-RAxML-master
+  cd ..; 
    
 
 #
