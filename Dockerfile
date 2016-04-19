@@ -20,14 +20,9 @@ RUN  rm -rf v8.0.0.zip;
 #  
 RUN cd standard-RAxML-8.0.0; \
   make -f Makefile.gcc; rm *.o; \
-  mv raxmlHPC /usr/local/bin/; \
+  mv raxmlHPC /usr/local/bin/raxml \
   cd ..; 
-   
-
-#
-# Add the wrapper 
-# 
-ADD bin/raxml /usr/local/bin/
+  
 
 ENTRYPOINT ["/usr/local/bin/raxml"]
 
