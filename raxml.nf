@@ -18,7 +18,7 @@ process get_raxml_tree{
       file "RAxML_bestTree*"
   
   """
-      raxmlHPC -T $task.cpus -f d -j -m PROTGAMMALG -s $seq_file -n $params.tag_name -p $params.rand_value
+      raxml -T $task.cpus -f d -j -m PROTGAMMALG -s $seq_file -n $params.tag_name -p $params.rand_value
   """
 
 }
