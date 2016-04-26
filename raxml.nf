@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-params.base_dir="/users/cn/mhatzou/Datasets/PhylomeDB/NF-RAxML/data/*"
+params.base_dir="$baseDir/data/*"
 params.out_dir="RAxML_NF_RESULTS"
 
 params.rand_value=9
