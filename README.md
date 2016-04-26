@@ -12,7 +12,7 @@ You can run RAxML using the following command:
 
 For example: 
 
-    nextflow run cbcrg/raxml-nf -process.cpus 2 --base_dir data/* -with-docker
+    nextflow run cbcrg/raxml-nf -process.cpus 2 -with-docker
     
     
 Bonus
