@@ -8,9 +8,12 @@ This repository contains:
 
 3) The instructions how to replicate these results.
 
-Input data set is located in the folder `data`. 
 
-Result data is located in the folder `RAxML_NF_RESULTS`. 
+## Folder structure
+
+* Folder `data/`: input dataset. 
+
+* Folder `RAxML_NF_RESULTS/`: experiment results. 
 
 
 ## How to replicate results 

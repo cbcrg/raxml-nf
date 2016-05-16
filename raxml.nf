@@ -2,24 +2,24 @@
 /*
  * Copyright (c) 2016, Centre for Genomic Regulation (CRG) and the authors.
  *
- *   This file is part of 'Shootstrap-NF'.
+ *   This file is part of 'RAxML-NF'.
  *
- *   Shootstrap-NF is free software: you can redistribute it and/or modify
+ *   RAxML-NF is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Shootstrap-NF is distributed in the hope that it will be useful,
+ *   RAxML-NF is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Shootstrap-NF.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with RAxML-NF.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* 
- * Main Shootstrap-NF script
+ * Main RAxML-NF script
  *
  * @authors
  * Maria Chatzou <mxatzou@gmail.com>
