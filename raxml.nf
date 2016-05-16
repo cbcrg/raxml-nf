@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
-params.base_dir="$baseDir/data/*"
-params.out_dir="RAxML_NF_RESULTS"
+params.base_dir="$baseDir/data/prestin_SLC26A5.35eutheria.original.msa"
+params.out_dir="."
 
 params.rand_value=9
 params.tag_name="PRESTIN"
