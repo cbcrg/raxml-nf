@@ -3,7 +3,9 @@
 This repository contains: 
 
 1) A dataset containing motor protein Prestin from 35 different species, as published by Liu et al.15. Motor protein Prestin is expressed in mammalian outer hair cells (OHCs) and is thought to confer high frequency sensitivity and selectivity in the mammalian auditory system.
+
 2) Results of RAxML estimated phylogenetic trees run on Mac, Linux and with Nextflow portable runtime. 
+
 3) The instructions how to replicate these results.
 
 Input data set is located in the folder `data`. 
