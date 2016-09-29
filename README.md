@@ -38,7 +38,7 @@ and install it properly, making sure that the `raxmlHPC` binary is in a director
 
 You can then run RAxML using the following command: 
 
-    raxmlHPC -T 2 -f d -j -m PROTGAMMALG -s data/prestin_SLC26A5.35eutheria.original.msa -n PRESTIN_MAC -p 9
+    raxmlHPC -p 9 -T 2 -f d -j -m PROTGAMMALG -s data/prestin_SLC26A5.35eutheria.original.msa -n PRESTIN 
     
     
 ### Nextflow RAxML run on Linux & Mac
