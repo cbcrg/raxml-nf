@@ -32,9 +32,8 @@
 params.base_dir="$baseDir/data/prestin_SLC26A5.35eutheria.original.msa"
 params.out_dir="."
 
-params.rand_value=9
+params.rand_value=12345
 params.tag_name="PRESTIN"
-
 
 file_names=Channel.fromPath(params.base_dir)
 
@@ -47,7 +46,7 @@ process get_raxml_tree{
       file "RAxML_bestTree*"
   
   """
-      raxmlHPC -T $task.cpus -f d -j -m PROTGAMMALG -s $seq_file -n $params.tag_name -p $params.rand_value
+      raxmlHPC -T 2 -f d -j -p $params.rand_value -m PROTGAMMALG -s $seq_file -n $params.tag_name 
   """
 
 }
