@@ -23,36 +23,25 @@ Clone this repository from GitHub using the following command:
     git clone https://github.com/cbcrg/raxml-nf.git
 
 then move in the directory `raxml-nf` create by the clone command.
- 
-
-### Mac 
-
-Download the RAxML toolset from 
-[this link](http://www.sfu.ca/biology2/staff/dc/raxml/raxml/raxmlHPC-AVX-v8.zip) and 
-install it, making sure that the `raxml` binary is in a directory in your `PATH`.
 
 
-Run the following command: 
-
-    raxmlHPC -T 2 -f d -j -m PROTGAMMALG -s data/prestin_SLC26A5.35eutheria.original.msa -n PRESTIN_MAC -p 9
-
-
-### Linux
+### Native RAxML run on Linux & Mac
 
 Download the RAxML toolset for Linux from 
 [this link](https://github.com/stamatak/standard-RAxML/archive/v8.0.0.zip), 
-compile and install it properly, making sure that the `raxmlHPC` binary is in a directory in your `PATH`.
 
+Compile typing:
 
-Move in the `raxml-nf` subfolder. 
+    make -f Makefile.gcc
 
-Run the following command:
-  
-    raxmlHPC -T 2 -f d -j -m PROTGAMMALG -s data/prestin_SLC26A5.35eutheria.original.msa -n PRESTIN_LINUX -p 9
+and install it properly, making sure that the `raxmlHPC` binary is in a directory in your `PATH`.
+
+You can then run RAxML using the following command: 
+
+    raxmlHPC -T 2 -f d -j -m PROTGAMMALG -s data/prestin_SLC26A5.35eutheria.original.msa -n PRESTIN_MAC -p 9
     
     
-    
-### Nextflow Linux & Mac
+### Nextflow RAxML run on Linux & Mac
 
 Install Nextflow with the following command: 
 
