@@ -34,7 +34,7 @@ install it, making sure that the `raxml` binary is in a directory in your `PATH`
 
 Run the following command: 
 
-    raxml -T 2 -f d -j -m PROTGAMMALG -s data/prestin_SLC26A5.35eutheria.original.msa -n PRESTIN_MAC -p 9
+    raxmlHPC -T 2 -f d -j -m PROTGAMMALG -s data/prestin_SLC26A5.35eutheria.original.msa -n PRESTIN_MAC -p 9
 
 
 ### Linux
