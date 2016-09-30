@@ -30,7 +30,7 @@
 params.file_names="$baseDir/data/prestin_SLC26A5.35eutheria.original.msa"
 params.out_dir="."
 
-params.rand_value=12345
+params.rand_value=9
 params.tag_name="PRESTIN"
 
 file_names=Channel.fromPath(params.file_names)
