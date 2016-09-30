@@ -25,17 +25,15 @@
  * Maria Chatzou <mxatzou@gmail.com>
  * Paolo Di Tommaso <paolo.ditommaso@gmail.com>
  */
- 
 
-#!/usr/bin/env nextflow
 
-params.base_dir="$baseDir/data/prestin_SLC26A5.35eutheria.original.msa"
+params.file_names="$baseDir/data/prestin_SLC26A5.35eutheria.original.msa"
 params.out_dir="."
 
 params.rand_value=12345
 params.tag_name="PRESTIN"
 
-file_names=Channel.fromPath(params.base_dir)
+file_names=Channel.fromPath(params.file_names)
 
 process get_raxml_tree{
   publishDir params.out_dir, mode: "copy"
