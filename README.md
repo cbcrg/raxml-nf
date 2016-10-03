@@ -53,7 +53,11 @@ Clone this repository and change in the project root directory as shown below:
 
     git clone https://github.com/cbcrg/raxml-nf.git && cd raxml-nf
 
-Run this command: 
+Pull the required Docker image with this command:
+
+    docker pull cbcrg/raxml-nf@sha256:308d687223753a8b80588c05aeef8f344aefc3db2195e2676d37a2a36b6dbdbb
+
+Finally launch RAxML with Nextflow by using the following command: 
 
     nextflow run raxml.nf -with-docker
  
