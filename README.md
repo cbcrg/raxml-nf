@@ -49,9 +49,11 @@ Install Nextflow with the following command:
 
 Install Docker following the instruction at [this page](https://docs.docker.com/engine/installation/). 
 
-Move in the `raxml-nf` subfolder. 
+Clone this repository and change in the project root directory as shown below: 
 
-Run this command 
+    git clone https://github.com/cbcrg/raxml-nf.git && cd raxml-nf
+
+Run this command: 
 
     nextflow run raxml.nf -with-docker
  
