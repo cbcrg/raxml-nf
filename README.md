@@ -61,8 +61,13 @@ Finally launch RAxML with Nextflow by using the following command:
 
     nextflow run raxml.nf -with-docker
  
-The command above executes RAxML by using by default the parameters specified in the native
-command line provided in the previous examples. 
+The command above executes RAxML using the default parameters specified in the native
+command line provided in the previous example and the docker image specified above.
+
+If you wish to run RAxML with Nextflow without docker, make sure the `raxmlHPC` binary is in your `PATH` and then run the following command:
+       
+    nextflow run cbcrg/raxml-nf 
+    
 
 
 
