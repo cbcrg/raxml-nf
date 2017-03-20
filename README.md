@@ -45,6 +45,7 @@ You can then run RAxML using the following command:
 
 Install Nextflow with the following command: 
 
+    export NXF_VER=0.22.0
     curl -fsSL get.nextflow.io | bash
 
 Install Docker following the instruction at [this page](https://docs.docker.com/engine/installation/). 
